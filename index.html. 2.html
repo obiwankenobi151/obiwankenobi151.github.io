@@ -1,0 +1,110 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#e8f1f8">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="Stronger & Healthier">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="apple-touch-icon" href="icon-192.png">
+<title>Stronger & Healthier</title>
+<style>
+:root{--blue:#e8f1f8;--ink:#29445c;--muted:#6d8192;--pink:#d887a4;--sage:#79a995;--paper:#fff;--line:#e6ebef;--bg:#f7f9fb}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:#30475a;font:16px -apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
+header{background:var(--blue);padding:24px 18px 18px;border-radius:0 0 24px 24px;color:var(--ink)}
+.eyebrow{font-size:11px;letter-spacing:.12em;font-weight:700;color:#627b90}.brand{font-size:27px;font-weight:750;margin:6px 0}.sub{font-size:13px;color:#627b90}
+.stats{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:18px}.stat{background:white;border-radius:15px;padding:12px}.stat small{display:block;color:#718397}.stat strong{font-size:25px;display:block;margin-top:3px}
+.progress{height:8px;background:#fff;border-radius:9px;overflow:hidden;margin-top:8px}.progress span{display:block;height:100%;background:var(--sage);width:0}
+main{max-width:720px;margin:auto;padding:14px 14px 100px}.tabs{display:flex;gap:7px;margin:4px 0 18px}.tabs button{flex:1;border:0;border-radius:12px;padding:11px 5px;background:#edf1f4;color:#607487;font-weight:650}.tabs button.active{background:var(--ink);color:white}
+h2{font-size:20px;margin:12px 2px 5px;color:var(--ink)}.hint{font-size:13px;color:var(--muted);margin:0 2px 13px}
+.card{background:white;border:1px solid var(--line);border-radius:17px;padding:15px;margin:10px 0;box-shadow:0 2px 8px #25394a08}
+.daytop{display:flex;align-items:center;gap:10px;cursor:pointer}.daytop .grow{flex:1}.daytop b{display:block}.daytop small{color:var(--muted)}.tick{width:25px;height:25px;border-radius:50%;border:1.5px solid #b9c8d2;display:grid;place-items:center;color:white;font-size:14px}.tick.done{background:var(--sage);border-color:var(--sage)}
+.details{border-top:1px solid var(--line);margin-top:13px;padding-top:12px}.details ul{padding-left:20px;margin:5px 0 14px}.details li{margin:8px 0;font-size:14px}.btn{border:0;border-radius:12px;padding:11px 14px;background:var(--ink);color:white;font-weight:650}.btn.secondary{background:#edf1f4;color:#425b70}.row{display:flex;align-items:center;gap:8px;justify-content:space-between}.weeknav{display:flex;justify-content:space-between;align-items:center;margin:12px 0}.weeknav button{border:0;background:#edf1f4;border-radius:10px;padding:9px 12px;color:var(--ink)}
+.checkrow{display:flex;gap:10px;align-items:center;padding:12px 2px;border-bottom:1px solid var(--line);font-size:14px}.checkrow input{width:19px;height:19px;accent-color:var(--sage)}
+.pill{font-size:11px;background:#f5edf1;color:#9c5e79;border-radius:20px;padding:5px 9px;font-weight:700}.note{background:#f0f5f2;border-radius:14px;padding:13px;font-size:13px;line-height:1.5;color:#526c61;margin-top:14px}
+.calendar{display:grid;grid-template-columns:repeat(7,1fr);gap:5px;text-align:center}.calendar div{padding:9px 0;border-radius:9px;font-size:12px}.calendar .dow{color:#7a8b98;font-weight:700}.calendar .today{background:var(--blue);font-weight:800;color:var(--ink)}.calendar .marked{background:#e7f2ec;color:#477b62;font-weight:700}
+footer{text-align:center;color:#8493a0;font-size:11px;padding:12px}
+.hidden{display:none!important}
+</style>
+</head>
+<body>
+<header>
+ <div class="eyebrow">YOUR PERSONAL FITNESS SPACE</div>
+ <div class="brand">Stronger &amp; Healthier ♡</div>
+ <div class="sub">A gentle, beginner-friendly plan · Nov 2026 – Sep 2027</div>
+ <div class="stats">
+  <div class="stat"><small>Plan week</small><strong id="weekNum">1</strong></div>
+  <div class="stat"><small>Activities this week</small><strong id="count">0 / 7</strong></div>
+ </div>
+ <div class="progress"><span id="bar"></span></div>
+</header>
+<main>
+ <nav class="tabs" aria-label="App sections">
+  <button class="active" data-tab="week">My week</button><button data-tab="workouts">Workouts</button><button data-tab="habits">Habits</button><button data-tab="calendar">Calendar</button>
+ </nav>
+ <section id="week">
+  <h2>Your weekly planner</h2><p class="hint">Choose a day to see the plan. Tick it off when you're done.</p>
+  <div class="weeknav"><button id="prev">← Previous</button><b id="weekLabel">Week 1</b><button id="next">Next →</button></div>
+  <div id="days"></div>
+ </section>
+ <section id="workouts" class="hidden">
+  <h2>Workout library</h2><p class="hint">Start gently. Rest between sets and focus on comfortable, controlled movement.</p>
+  <div id="library"></div>
+  <div class="note"><b>Safety first</b><br>Warm up before exercise. Stop if you feel pain, dizzy or unusually unwell. Adjust or skip an activity when you need recovery.</div>
+ </section>
+ <section id="habits" class="hidden">
+  <h2>Healthy habits</h2><p class="hint">A flexible check-in, not a test. You don't need to tick every box.</p>
+  <div class="card" id="habitList"></div>
+  <button class="btn secondary" id="resetHabits">Reset this week's habits</button>
+  <div class="note">Eat regular, varied meals and snacks, drink water, and give yourself enough rest. No calorie targets or restrictive rules.</div>
+ </section>
+ <section id="calendar" class="hidden">
+  <h2>Monthly view</h2><p class="hint">A simple record of days you've marked complete.</p>
+  <div class="row"><button class="btn secondary" id="monthPrev">←</button><b id="monthTitle"></b><button class="btn secondary" id="monthNext">→</button></div>
+  <div class="card"><div class="calendar" id="calendarGrid"></div></div>
+  <p class="hint">Green days show at least one completed activity.</p>
+ </section>
+ <footer>Your progress is personal. Consistency matters more than perfection.</footer>
+</main>
+<script>
+const plan=[
+ {day:"Monday",name:"Full-body strength A",time:"25–35 min",items:["Bodyweight squats · 2 × 10","Glute bridges · 2 × 12","Wall or incline push-ups · 2 × 8","Bird dogs · 2 × 8 each side","Reverse lunges · 2 × 8 each leg","Plank · 2 × 15–20 seconds"]},
+ {day:"Tuesday",name:"Walking",time:"20–30 min",items:["Comfortable outdoor walk","Keep a relaxed, steady pace"]},
+ {day:"Wednesday",name:"Rest day",time:"Recovery",items:["Relax and recover","Optional gentle stretching"]},
+ {day:"Thursday",name:"Full-body strength B",time:"25–35 min",items:["Step-ups on a stable low step · 2 × 8 each leg","Hip hinges · 2 × 10","Incline push-ups · 2 × 8","Standing calf raises · 2 × 12","Dead bugs · 2 × 8 each side","Side plank from knees · 2 × 10–15 seconds"]},
+ {day:"Friday",name:"Rest day",time:"Recovery",items:["Take a break from structured exercise"]},
+ {day:"Saturday",name:"Running / cardio",time:"20–30 min",items:["5-minute comfortable warm-up walk","Alternate 1-minute gentle jog and 2-minute walk","Repeat up to 6 times, as comfortable","5-minute cool-down walk"]},
+ {day:"Sunday",name:"Optional activity",time:"Flexible",items:["Optional walk, cycling or gentle activity","Rest if you need it"]}
+];
+const habits=["Had regular, balanced meals","Drank water regularly","Got enough sleep","Made time for recovery","Enjoyed some movement","Made time to relax"];
+const today=new Date(); const start=new Date(2026,10,23);
+let week= Math.max(1,Math.floor((today-start)/604800000)+1); week=Math.min(week,44);
+let openDay="Monday", month=new Date(today.getFullYear(),today.getMonth(),1);
+const key=(w)=>"sh-week-"+w;
+const get=(k,d)=>{try{return JSON.parse(localStorage.getItem(k))??d}catch{return d}};
+const save=(k,v)=>localStorage.setItem(k,JSON.stringify(v));
+const completed=()=>get(key(week),[]);
+function renderDays(){
+ document.getElementById("weekNum").textContent=week;document.getElementById("weekLabel").textContent="Week "+week;
+ document.getElementById("count").textContent=completed().length+" / 7";
+ document.getElementById("bar").style.width=(completed().length/7*100)+"%";
+ document.getElementById("days").innerHTML=plan.map(p=>{let done=completed().includes(p.day);return `<article class="card"><div class="daytop" data-open="${p.day}"><span class="tick ${done?'done':''}">${done?'✓':''}</span><span class="grow"><b>${p.day}</b><small>${p.name} · ${p.time}</small></span><span>${openDay===p.day?'⌃':'⌄'}</span></div>${openDay===p.day?`<div class="details"><ul>${p.items.map(i=>`<li>${i}</li>`).join("")}</ul><button class="btn ${done?'secondary':''}" data-complete="${p.day}">${done?'Undo completion':'Mark day complete'}</button></div>`:''}</article>`}).join("");
+ document.querySelectorAll("[data-open]").forEach(e=>e.onclick=()=>{openDay=e.dataset.open;renderDays()});
+ document.querySelectorAll("[data-complete]").forEach(e=>e.onclick=()=>{let a=completed();let d=e.dataset.complete;a=a.includes(d)?a.filter(x=>x!==d):[...a,d];save(key(week),a);renderDays();renderCalendar()});
+}
+function renderLibrary(){document.getElementById("library").innerHTML=[plan[0],plan[3],plan[5]].map(p=>`<article class="card"><b>${p.name}</b><div class="hint">${p.time}</div><ul>${p.items.map(i=>`<li>${i}</li>`).join("")}</ul></article>`).join("")}
+function renderHabits(){let a=get("sh-habits-"+week,[]);document.getElementById("habitList").innerHTML=habits.map(h=>`<label class="checkrow"><input type="checkbox" data-habit="${h}" ${a.includes(h)?"checked":""}>${h}</label>`).join("");document.querySelectorAll("[data-habit]").forEach(c=>c.onchange=()=>{let x=get("sh-habits-"+week,[]);x=c.checked?[...x,c.dataset.habit]:x.filter(v=>v!==c.dataset.habit);save("sh-habits-"+week,x)})}
+function renderCalendar(){let y=month.getFullYear(),m=month.getMonth(),first=new Date(y,m,1).getDay(),n=new Date(y,m+1,0).getDate();document.getElementById("monthTitle").textContent=month.toLocaleDateString(undefined,{month:"long",year:"numeric"});let cells=["S","M","T","W","T","F","S"].map(x=>`<div class="dow">${x}</div>`);for(let i=0;i<first;i++)cells.push("<div></div>");for(let d=1;d<=n;d++){let date=new Date(y,m,d),w=Math.floor((date-start)/604800000)+1,day=date.toLocaleDateString(undefined,{weekday:"long"}),marked=w>=1&&completedFor(w).includes(day);cells.push(`<div class="${marked?'marked':''} ${date.toDateString()===today.toDateString()?'today':''}">${d}</div>`)}document.getElementById("calendarGrid").innerHTML=cells.join("")}
+function completedFor(w){return get(key(w),[])}
+document.querySelectorAll("[data-tab]").forEach(b=>b.onclick=()=>{document.querySelectorAll("[data-tab]").forEach(x=>x.classList.toggle("active",x===b));["week","workouts","habits","calendar"].forEach(id=>document.getElementById(id).classList.toggle("hidden",id!==b.dataset.tab));if(b.dataset.tab==="calendar")renderCalendar()});
+document.getElementById("prev").onclick=()=>{week=Math.max(1,week-1);renderDays();renderHabits()};
+document.getElementById("next").onclick=()=>{week=Math.min(44,week+1);renderDays();renderHabits()};
+document.getElementById("resetHabits").onclick=()=>{save("sh-habits-"+week,[]);renderHabits()};
+document.getElementById("monthPrev").onclick=()=>{month.setMonth(month.getMonth()-1);renderCalendar()};
+document.getElementById("monthNext").onclick=()=>{month.setMonth(month.getMonth()+1);renderCalendar()};
+renderDays();renderLibrary();renderHabits();renderCalendar();
+if("serviceWorker" in navigator && location.protocol.startsWith("http"))navigator.serviceWorker.register("./service-worker.js").catch(()=>{});
+</script>
+</body></html>
